@@ -1,0 +1,201 @@
+import random
+
+menu = '''
+    __________________________
+    Bienvenido a "Auto Seguro"
+    ==========================
+    1) Grabar
+    2) Buscar
+    3) Imprimir Certificado
+    --------------------------
+    4) Salir
+    =========================='''
+
+certificado = True
+dautos = []
+auto = True
+color = ['Rojo', 'Negro', 'Blanco', 'Amarillo', 'Verde', 'Azul', 'Celeste', 'Rosado', 'Cafe', 'Naranjo']
+buscar = ''
+encontrado = False
+while auto:
+    print(menu)
+    opc = input('Seleccione su opción correspondiente a su dígito: ')
+    
+    if not opc.isdigit():
+        print('Solo se admiten números como opciones.')
+    elif opc == '1': # Grabar
+        while True: # Ingresa nombre de dueño
+            nm = input('Ingrese el primer Nombre del dueño: ').capitalize() # nm: nombre
+            if len(nm) < 3:
+                print('Nombre inválido. Mínimo 3 caracteres.')
+            else:
+                break
+        while True: # Ingresa Apellido de dueño
+            ap = input('Ingrese el Apellido del dueño: ').capitalize() # nm: nombre
+            if len(ap) < 3:
+                print('Nombre inválido. Mínimo 3 caracteres.')
+            else:
+                break
+        while True:
+            rt = input('ingrese su rut como en el ejemplo 12345678-9: ') #rt = RUT
+            if not '-'in rt:
+                print('Guion no encontrado\nPorfavor ingrese el rut como el ejemplo indica')
+            elif len(rt) < 9:
+                print('Rut invalido, ingrese un rut valido.')
+            else:
+                break
+        while True: # Ingresa patente
+            rp = input('Ingrese la patente: ').upper()
+            if rp in [auto['Patente'] for auto in dautos]:
+                print('Ese vehiculo ya esta registrado')
+            elif len(rp) != 6:
+                print('Patente inválida. Ingrese una patente de 6 caracteres.')
+            else:
+                break   
+
+        while True: # Ingresa marca
+            rp2 = input('Ingrese la marca: ')   
+            if len(rp2) < 3:
+                print('Marca inválida. Mínimo 3 caracteres.')
+            else:
+                break
+        
+        while True: # Ingresa precio  
+            rp3 = input('Ingrese el precio: ')
+            if not rp3.isdigit():
+                print('Solo aceptamos numeros para poner precios, Reintentelo.')
+            elif int(rp3) < 4999999:
+                print('Este precio es inválido. Ingrese un precio mayor o igual a 5,000,000.')
+            else:
+                break
+        multa = random.randint(1500, 3500)
+        dia = random.randint(1, 31)
+        mes = random.randint(1, 12)
+        año = random.randint(2000, 2023)
+        dia2 = random.randint(1, 31)
+        mes2 = random.randint(1, 12)
+        año2 = random.randint(2000, 2023)
+        idmulta = random.randint(11111, 99999)
+        Caño =  random.randint(2000, 2020)
+        inscri = random.randint(22222, 99999)
+        idnum = random.randint(0, 9999)
+        colorandom = random.choice(color)
+        
+        print(f'El vehiculo registrado tiene una multa de ${multa} Pesos')
+        rp4 = multa
+        input('Presione Enter para continuar.')
+        print(f'Las fechas de las multas del vehiculo fueron en el dia {dia} del mes {mes} del {año} ')
+        rp42 = dia, mes, año
+        input('Presione Enter para continuar.')
+
+        dauto = {'Nombre': nm,'Apellido': ap, 'Rut': rt, 'Patente': rp, 'Marca': rp2, 'Precio': rp3, 'Multa': rp4, 'FechaMulta': rp42}
+        dautos.append(dauto)
+        print('Automóvil grabado correctamente.')
+    
+    elif opc == '2': # Buscar
+        if len(dautos) == 0:
+            print('No hay vehículos registrados.')
+            continue
+        buscar = input('Ingrese la patente del vehículo: ').upper()     
+        encontrado = False
+        for dauto in dautos:
+            if dauto['Patente'] == buscar:
+                print('=============================')
+                print('Automóvil encontrado:')
+                print(f'Nombre:', dauto['Nombre'])
+                print(f'RUT:', dauto['Rut'])
+                print(f'Patente:', dauto['Patente'])
+                print(f'Marca:', dauto['Marca'])
+                print(f'Precio:', dauto['Precio'])
+                print(f'Multa:', dauto['Multa'])
+                print(f'Fecha Multa:', dauto['FechaMulta'])
+                print(f'============================')
+                encontrado = True
+                break
+        if not encontrado:
+            print('Automóvil no encontrado.')
+    
+    elif opc == '3': # Imprimir Certificado
+        if len(dautos) == 0:
+            print('No hay vehículos registrados.')
+            continue
+        buscar = input('Ingrese la patente del vehiculo: ').upper()
+        encontrado = False
+        if dauto['Patente'] == buscar:
+            print('Vehiculo encontrado')
+        while certificado:
+            print('''
+                Qué certificado desea imprimir?
+                ------------------------------            
+                1) Emisiones Contaminantes
+                2) De Anotaciones
+                3) Emision de Multas  
+                4) Salir
+                ------------------------------        
+                ''')
+                          
+            eleccion = input('Elija una opción del menú: ')
+                    
+            if eleccion == '1':
+                print('Emisión de contaminantes')
+                print(f'''
+                =====================================================
+                |Nombre de el propietario:         | Rut:
+                |{dauto['Nombre'].ljust(27)}       | {dauto['Rut'].ljust(14)} |
+                |---------------------------------------------------|
+                |Tipo de vehiculo                  | Año            |
+                |Automovil                         | {str(Caño).ljust(14)} |
+                |---------------------------------------------------|
+                |Marca                             | Color          |
+                |{dauto['Marca'].ljust(26)}        | {colorandom.ljust(14)} |
+                |---------------------------------------------------|
+                |Fecha de revision                 | Placa patente  |
+                |{dia2,mes2,año2}                     | {dauto['Patente'].ljust(14)} |
+                |===================================================|
+                ''')
+             
+            elif eleccion == '2':
+                print('anotaciones Vigentes')
+                print(f'''
+                Inscripcion   | {str(inscri)} 
+                ================================
+                Datos de vehiculo
+                Patente       | {dauto['Patente']}
+                Marca         | {dauto['Marca']}  
+                Color         | {colorandom}      
+                ================================
+                Datos Propietario
+                Nombre        | {dauto['Nombre']} 
+                Apellido      | {dauto['Apellido']} 
+                Rut           | {dauto['Rut']}    
+                Numero        | {str(idnum)}      
+                ================================
+                ''')
+                
+            elif eleccion == '3':
+                print(f'''  Emisión de multas
+                =======================================
+                ID Multa        | {idmulta}       
+                ---------------------------------------
+                Monto Multa     | {dauto['Multa']}
+                ---------------------------------------
+                Fecha Multa     | {dauto['FechaMulta']}
+                =======================================
+                ''')
+            else:
+                print('Salir')
+                certificado = False
+            
+    
+    elif opc == '4': # Salir
+        print('''
+        Adiós, que tenga un buen día.
+        Menu echo por:
+        Isaias Leon
+        Benjamin Martinez
+        Python 3.11.3 ''')
+        auto = False
+        break
+        
+    else:
+        print('Opción inválida. Seleccione un número válido.')
